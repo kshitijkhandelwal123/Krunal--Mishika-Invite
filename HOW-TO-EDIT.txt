@@ -1,0 +1,18 @@
+KRUNAL & MISHIKA – EMERALD GARDEN INVITATION
+============================================
+Open details.js in any text editor – everything is in that one file.
+
+Most common edits:
+  rsvpEmail   -> the couple's real email (RSVP replies open the guest's email app addressed to this)
+  venueName   -> the venue's real name (currently "The Wedding Venue")
+  venueAddress-> optional address line ("" hides it)
+  mapLink     -> Google Maps share link for the "Find your way" button
+  rsvpBy      -> RSVP deadline
+  music       -> put your song in the music folder as song.mp3 (or change the name here)
+  weddingDateTime -> the countdown counts to this (now: Phere, 18 Jan 2027, 12:39 PM IST)
+
+Events: each line in "events" is one ceremony. { header: "The Marriage" } starts the
+Marriage group – every event after it appears inside that group.
+
+Photos live in the images folder. Keep names lowercase and the same as in details.js.
+Scratch cards show on every visit (built in).
