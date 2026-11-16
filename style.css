@@ -975,3 +975,10 @@ body{background:#fdf3f5}
 .vnote{color:#8a4458!important}
 .hdate{display:inline-block;padding:4px 14px 4px 18px;border-radius:30px;background:rgba(253,241,244,.78);box-shadow:0 0 0 1px rgba(201,162,78,.5)}
 .hplace{display:inline-block;padding:3px 12px;border-radius:30px;background:rgba(253,241,244,.7);margin-top:8px}
+/* spiti photos: meet picture fully visible, Spiti photo tucked below-right */
+.sp-pics{height:600px!important}
+.sp-a{left:2%!important;top:0!important;width:80%!important;height:380px!important;rotate:-3deg}
+.sp-pics .reveal-up.show.sp-a{rotate:-3deg}
+.sp-a img{object-position:50% 30%!important}
+.sp-b{right:-2%!important;top:330px!important;width:56%!important;height:250px!important}
+@media(max-width:360px){.sp-pics{height:560px!important}.sp-a{height:350px!important}.sp-b{top:305px!important;height:230px!important}}
