@@ -105,7 +105,7 @@ window.WEDDING = {
   music: "music/song.mp3",
 
   /* ---- colours (hex) ---- */
-  theme: { ink: "#8a4458", blue: "#b0697b", sky: "#f2d4dc", mist: "#fdf4f6", gold: "#c4a052" },
+  theme: { ink: "#6b2c3f", blue: "#8c4558", sky: "#f2d4dc", mist: "#fdf4f6", gold: "#a8842f" },
 
   hideSections: ["postcard"]
 };
