@@ -48,7 +48,7 @@ window.WEDDING = {
     image1: "images/meet.jpg",
     image2: "images/spiti-walk.jpg",
     caption2: "Spiti Valley, Himachal",
-    text: "She came from the sea breeze of Mumbai, he from the bridges of Surat. Somewhere on a winding road in Spiti, between snowy peaks and endless cups of chai, two travellers found each other — and forever."
+    text: "She came from the sea breeze of Mumbai, he from the flavorful streets of Surat. Somewhere on a winding road in Spiti, between snowy peaks and endless cups of chai, two travellers found each other — and forever."
   },
 
   /* gallery – the couple's photos */
@@ -63,7 +63,7 @@ window.WEDDING = {
   /* ---- date (the three scratch cards reveal this) ---- */
   weddingDateTime: "2027-01-18T12:39:00+05:30",   /* Phere time – the countdown counts to this */
   dateDay: "18", dateMonth: "JAN", dateYear: "2027",
-  sealText: "Scratch each card, one by one, to reveal the date",
+  sealText: "Scratch each card with your finger to reveal the date",
   dateNote: "Saat Vachan at 12:39 in the afternoon",
   rememberReveal: false,               /* always false: guests scratch on every visit */
 
@@ -72,7 +72,7 @@ window.WEDDING = {
      { header: "..." } starts a group – everything after it sits inside that group. */
   eventsEyebrow: "Two days of love, colour & celebration",
   events: [
-    { name: "Haldi",   title: "Kesariya Khwaab",  date: "Sun · 17 Jan 2027", time: "12:00 PM", note: "Turmeric, marigolds & a whole lot of laughter",  image: "images/ev-haldi.jpg",     focus: "50% 40%" },
+    { name: "Haldi",   title: "Kesariya Khwaab",  date: "Sun · 17 Jan 2027", time: "11:00 AM onwards", note: "Turmeric, marigolds & a whole lot of laughter",  image: "images/ev-haldi.jpg",     focus: "50% 40%" },
     { name: "Sangeet", title: "Shaam Shandar",    date: "Sun · 17 Jan 2027", time: "8:00 PM",  note: "An evening of music, dance & dazzling lights",  image: "images/ev-sangeet.jpg",   focus: "50% 35%" },
     { header: "The Marriage", note: "Monday · 18 January 2027" },
     { name: "Baraat",  title: "Band Baja Baraat", date: "Mon · 18 Jan 2027", time: "10:30 AM", note: "The groom arrives with dhol, dance & dhamaal",  image: "images/ev-baraat.jpg",   focus: "40% 45%" },
@@ -92,12 +92,12 @@ window.WEDDING = {
   dressTitle: "Wardrobe Planner",
   dressCode: [
     { event: "Haldi · Kesariya Khwaab",  look: "Colourful yellow|Pastel florals in sunshine yellow & peach", colors: ["#f6dc7a", "#f7c6b4", "#f2b9c4", "#fbf3e0"], image: "images/look-haldi.jpg" },
-    { event: "Sangeet · Shaam Shandar",  look: "Glam & sparkle|Sequins, shimmer & sharp tuxedos",          colors: ["#b07a45", "#1b1b1f", "#1f2a4d", "#c9c9cf"], image: "images/look-sangeet.jpg" },
+    { event: "Sangeet · Shaam Shandar",  look: "Glitz & Glam|All that glitters, but not gold!", colors: ["#c9c9cf", "#e8a0b8", "#7a6fb8", "#2f8f7a"], image: "images/look-sangeet.jpg" },
     { event: "Baraat · Varmala · Phere", look: "Traditional elegance|Rich jewel tones, ivory & gold",       colors: ["#c43d5e", "#f6ecd8", "#d9a630", "#b9c79a"], image: "images/look-wedding.jpg" }
   ],
 
   /* ---- RSVP (replies arrive by email) ---- */
-  rsvpEmail: "Krunalmishika@gmail.com",   /* ← put the couple's real email here */
+  rsvpEmail: "rsvp.mishikakrunal@example.com",   /* ← couple's email; for two, separate with a comma: "a@gmail.com,b@gmail.com" */
   rsvpBy: "31 Dec 2026",
   closing: "Your presence and blessings will make our celebration complete.",
   families: "With love — The Saraiya & Gupta Families",

@@ -991,3 +991,35 @@ body{background:#fdf3f5}
 .small,#invite,.c-end,.vnote,.sp-txt,.ev p,.lsub,.big,#closeTxt,.blessing,.who b,.sp-cap,.sp-b figcaption,.gs figcaption{color:#5e2537!important}
 .g-names{font-size:40px!important}
 .g-stage .g-tap{color:#6b2c3f!important;font-weight:500}
+/* RSVP sent directly */
+.rsvp-status{min-height:18px;margin:10px 0 0;font-size:13px;font-family:'Jost',sans-serif}
+.rsvp-status.err{color:#b23a52}.rsvp-status.ok{color:#5e2537}
+#send.busy{opacity:.7;pointer-events:none}
+.rsvp-thanks{display:none;text-align:center;padding:24px 6px 8px}
+#form.sent{display:none}
+#form.sent+.rsvp-thanks{display:block;animation:thx 1s ease both}
+.rsvp-thanks b{display:block;font-family:'Pinyon Script',cursive;font-weight:400;font-size:40px;line-height:1.1;color:#6b2c3f}
+.rsvp-thanks span{display:block;margin-top:10px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:#5e2537}
+@keyframes thx{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+
+/* =================== v43 : richer opening & scratch hint =================== */
+.g-back{background:linear-gradient(180deg,rgba(253,236,241,.35),rgba(253,236,241,.2)),url(images/chalet.jpg) center/cover!important;filter:blur(10px) saturate(1.1) brightness(.95)!important}
+.g-city{filter:brightness(1.02) saturate(1.08) contrast(1.06)!important}
+#gate.lit .g-city{filter:brightness(1.05) saturate(1.22) contrast(1.08)!important}
+.g-tint{background:linear-gradient(180deg,rgba(252,236,241,.9) 0%,rgba(252,236,241,.62) 15%,rgba(252,236,241,.12) 30%,rgba(252,236,241,0) 42%,rgba(60,20,35,0) 68%,rgba(70,25,40,.18) 86%,rgba(70,25,40,.42) 100%)!important}
+#gate.lit .g-tint{opacity:.55!important}
+.g-stage{box-shadow:0 0 0 1px rgba(201,162,78,.75),0 0 0 6px rgba(255,255,255,.35),0 0 90px rgba(214,150,170,.45)!important}
+.g-names{filter:drop-shadow(0 0 8px #fff) drop-shadow(0 2px 3px rgba(107,44,63,.25))!important}
+.g-stage .g-tap{background:rgba(255,250,251,.95)!important;box-shadow:0 0 0 1px rgba(201,162,78,.9),0 8px 20px rgba(70,25,40,.35)!important}
+.g-arch{opacity:1!important;filter:drop-shadow(0 0 4px rgba(255,255,255,.95)) drop-shadow(0 0 10px rgba(255,214,150,.8))!important}
+#gate{background:#f6dfe6!important}
+/* page background: warmer, less washed out */
+body{background:#fbeef2!important}
+.mist{background:linear-gradient(180deg,#fdf1f4,#f8e2e9 50%,#fdf1f4)!important}
+#hero .scene .pal.photo{filter:saturate(1.1) contrast(1.05) brightness(1.02)!important}
+.hshade{background:linear-gradient(180deg,rgba(252,236,241,.88) 0%,rgba(252,236,241,.55) 22%,rgba(252,236,241,.12) 42%,rgba(252,236,241,0) 58%,rgba(252,236,241,0) 76%,#fbeef2 100%)!important}
+/* scratch with finger */
+.tile{touch-action:none!important}
+.tile.hintme{animation:wig .6s ease}
+@keyframes wig{20%{transform:rotate(-4deg)}40%{transform:rotate(4deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(2deg)}}
+.g-wow{color:#fff!important;text-shadow:0 0 18px rgba(107,44,63,.95),0 2px 8px rgba(70,25,40,.8),0 0 2px rgba(70,25,40,.9)!important}

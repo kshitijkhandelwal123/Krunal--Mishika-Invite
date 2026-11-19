@@ -62,18 +62,18 @@ else{
 /* ---------- glitter ---------- */
 var cv=$("fx"),cx=cv.getContext("2d"),P=[],raf=0,dpr=Math.min(2,window.devicePixelRatio||1);
 function size(){cv.width=innerWidth*dpr;cv.height=innerHeight*dpr}size();addEventListener("resize",size);
-var COL=["#ffffff","#fff1c8","#f6dc9c","#c9a24e","#f2b5c4"];
+var COL=["#c9922e","#d4577c","#e9b44c","#b0476a","#f08fab","#a8762a","#ffd36b"];
 function star(x,y,r,rot){cx.beginPath();for(var i=0;i<8;i++){var a=rot+i*Math.PI/4,rr=i%2?r*.28:r;cx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr)}cx.closePath();cx.fill()}
 function burst(x,y,big){
   var tiny=big==="tiny",n=tiny?9:(big?300:110);
   for(var i=0;i<n;i++){var a=i/n*Math.PI*2+Math.random()*.03,s=(tiny?2:(big?7:4))+Math.random()*(big?1.4:.8);
-    P.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,l:0,L:(big?95:70)+Math.random()*30,r:1.2+Math.random()*(big?3.4:2.4),c:COL[i%5],t:Math.random()*6,k:Math.random()<.35})}
+    P.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,l:0,L:(big?95:70)+Math.random()*30,r:1.2+Math.random()*(big?3.4:2.4),c:COL[i%7],t:Math.random()*6,k:Math.random()<.35})}
   for(var j=0;j<(tiny?5:(big?160:50));j++){var b=Math.random()*Math.PI*2,sp=Math.random()*(big?6:3);
-    P.push({x:x,y:y,vx:Math.cos(b)*sp,vy:Math.sin(b)*sp,l:0,L:60+Math.random()*60,r:1+Math.random()*2.6,c:COL[j%5],t:Math.random()*6,k:Math.random()<.5})}
+    P.push({x:x,y:y,vx:Math.cos(b)*sp,vy:Math.sin(b)*sp,l:0,L:60+Math.random()*60,r:1+Math.random()*2.6,c:COL[j%7],t:Math.random()*6,k:Math.random()<.5})}
   if(!tiny)P.push({ring:1,x:x,y:y,r:10,l:0,L:big?70:45,max:big?Math.max(innerWidth,innerHeight)*.8:90});
   if(!raf)raf=requestAnimationFrame(loop)}
 function dust(n){for(var i=0;i<n;i++){var a=Math.random()*Math.PI*2,sp=Math.random()*.9;
-  P.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight*.95,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-.4,l:0,L:70+Math.random()*90,r:1+Math.random()*2.6,c:COL[i%5],t:Math.random()*6,k:Math.random()<.6})}
+  P.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight*.95,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-.4,l:0,L:70+Math.random()*90,r:1+Math.random()*2.6,c:COL[i%7],t:Math.random()*6,k:Math.random()<.6})}
   if(!raf)raf=requestAnimationFrame(loop)}
 function shower(ms){var t0=Date.now(),iv=setInterval(function(){dust(10);
   burst(innerWidth*(.15+Math.random()*.7),innerHeight*(.12+Math.random()*.76),"tiny");
@@ -81,7 +81,7 @@ function shower(ms){var t0=Date.now(),iv=setInterval(function(){dust(10);
 function loop(){cx.setTransform(dpr,0,0,dpr,0,0);cx.clearRect(0,0,innerWidth,innerHeight);
   for(var i=P.length-1;i>=0;i--){var p=P[i];p.l++;if(p.l>p.L){P.splice(i,1);continue}var u=p.l/p.L;
     if(p.ring){var rr=p.r+(p.max-p.r)*(1-Math.pow(1-u,3));var g=cx.createRadialGradient(p.x,p.y,rr*.9,p.x,p.y,rr*1.04);
-      g.addColorStop(0,"rgba(255,255,255,0)");g.addColorStop(.7,"rgba(255,255,255,"+(.7*(1-u))+")");g.addColorStop(1,"rgba(255,255,255,0)");cx.fillStyle=g;cx.beginPath();cx.arc(p.x,p.y,rr*1.04,0,7);cx.fill();continue}
+      g.addColorStop(0,"rgba(255,255,255,0)");g.addColorStop(.7,"rgba(214,120,150,"+(.75*(1-u))+")");g.addColorStop(1,"rgba(255,255,255,0)");cx.fillStyle=g;cx.beginPath();cx.arc(p.x,p.y,rr*1.04,0,7);cx.fill();continue}
     p.x+=p.vx;p.y+=p.vy;p.vx*=.955;p.vy=p.vy*.955+.035;
     var tw=.55+.45*Math.sin(p.l*.5+p.t);cx.globalAlpha=Math.max(0,(1-u))*tw;cx.fillStyle=p.c;
     if(p.k)star(p.x,p.y,p.r*2.2,p.l*.1);else{cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);cx.fill()}}
@@ -158,12 +158,16 @@ function autoScratch(t){if(t.classList.contains("done")||t.dataset.busy)return;t
 tiles.forEach(function(t,i){
   try{if(false&&localStorage.getItem(KEY+t.dataset.k)){t.classList.add("done");return}}catch(e){}
   var down=null;
-  t.addEventListener("pointerdown",function(e){down={x:e.clientX,y:e.clientY,m:0}});
+  t.addEventListener("pointerdown",function(e){if(t.classList.contains("done"))return;down={x:e.clientX,y:e.clientY,lx:e.clientX,ly:e.clientY,m:0};try{t.setPointerCapture(e.pointerId)}catch(_){}});
   t.addEventListener("pointermove",function(e){if(!down||t.dataset.busy||t.classList.contains("done"))return;
     var cv=t.querySelector("canvas"),r=t.getBoundingClientRect(),c=cv.getContext("2d");
-    if(Math.abs(e.clientX-down.x)+Math.abs(e.clientY-down.y)>5&&e.pointerType==="mouse"){down.m+=1;c.globalCompositeOperation="destination-out";c.beginPath();c.arc(e.clientX-r.left,e.clientY-r.top,17,0,7);c.fill();
-      if(down.m%10===0)burst(e.clientX,e.clientY,"tiny");if(down.m>38)autoScratch(t)}});
-  t.addEventListener("pointerup",function(){if(down&&!down.m)autoScratch(t);down=null});
+    if(Math.abs(e.clientX-down.lx)+Math.abs(e.clientY-down.ly)<3)return;
+    down.m+=1;c.globalCompositeOperation="destination-out";c.lineCap="round";c.lineJoin="round";c.lineWidth=30;
+    c.beginPath();c.moveTo(down.lx-r.left,down.ly-r.top);c.lineTo(e.clientX-r.left,e.clientY-r.top);c.stroke();
+    down.lx=e.clientX;down.ly=e.clientY;
+    if(down.m%6===0)burst(e.clientX,e.clientY,"tiny");if(down.m>28){down=null;autoScratch(t)}});
+  function upH(){if(down&&!down.m){t.classList.remove("hintme");void t.offsetWidth;t.classList.add("hintme")}down=null}
+  t.addEventListener("pointerup",upH);
   t.addEventListener("pointercancel",function(){down=null});
   t.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();autoScratch(t)}});t.tabIndex=0;t.setAttribute("role","button");
 });
@@ -205,11 +209,23 @@ function tick(){var s=Math.floor(Math.max(0,target-Date.now())/1000),d=Math.floo
   ring("rD",d/365);ring("rH",h/24);ring("rM",m/60);ring("rS",c/60)}
 tick();setInterval(tick,1000);
 
-/* ---------- RSVP on WhatsApp ---------- */
-function build(){var yes=document.querySelector("input[name=att]:checked").value==="yes",n=$("gName").value.trim(),m=$("msg").value.trim();
-  var t="Dear "+W.groom+" & "+W.bride+",\n\nName: "+(n||"—")+"\nWill attend: "+(yes?"Yes, I'll be there!":"Sorry, I can't make it")+(m?"\n\nMessage: "+m:"")+"\n\nWith love,\n"+(n||"");
-  var sub="RSVP – "+(n||"Guest")+" – "+(yes?"Attending":"Not attending")+" | "+W.groom+" & "+W.bride+" Wedding";
-  $("send").href="mailto:"+(W.rsvpEmail||"")+"?subject="+encodeURIComponent(sub)+"&body="+encodeURIComponent(t)}
-$("form").addEventListener("input",build);$("form").addEventListener("change",build);$("form").addEventListener("submit",function(e){e.preventDefault()});build();
-$("send").removeAttribute("target");$("send").addEventListener("click",function(e){if(!$("gName").value.trim()){e.preventDefault();$("gName").focus();return}build()});
+/* ---------- RSVP: sent straight to the couple's email (FormSubmit) ---------- */
+(function(){var btn=$("send"),note=$("rsvpStatus"),busy=false;btn.removeAttribute("target");btn.setAttribute("href","#rsvp");
+  var mails=(W.rsvpEmail||"").split(",").map(function(x){return x.trim()}).filter(Boolean);
+  function say(t,ok){note.textContent=t;note.className="rsvp-status "+(ok?"ok":"err")}
+  function send(e){e.preventDefault();if(busy)return;
+    var n=$("gName").value.trim(),m=$("msg").value.trim(),yes=document.querySelector("input[name=att]:checked").value==="yes";
+    if(!n){$("gName").focus();say("Please enter your name first.",false);return}
+    if(!mails.length){say("RSVP email is not set up yet.",false);return}
+    busy=true;btn.classList.add("busy");btn.textContent="Sending…";say("",true);
+    var data={"Guest name":n,"Attending":yes?"Yes, will be there":"Sorry, can't make it","Message":m||"—",
+      _subject:"RSVP – "+n+" – "+(yes?"Attending":"Not attending")+" | "+W.groom+" & "+W.bride+" Wedding",_template:"table",_captcha:"false"};
+    if(mails.length>1)data._cc=mails.slice(1).join(",");
+    fetch("https://formsubmit.co/ajax/"+mails[0],{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(data)})
+    .then(function(r){return r.json().catch(function(){return {}}).then(function(j){if(!r.ok||j.success==="false"||j.success===false)throw 0})})
+    .then(function(){busy=false;$("form").classList.add("sent");
+      $("rsvpThanks").innerHTML="<b>Thank you, "+n.replace(/[<>&]/g,"")+"!</b><span>"+(yes?"We can't wait to celebrate with you.":"You'll be missed — thank you for your blessings.")+"</span>";
+      var r=$("rsvp").getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,true)})
+    .catch(function(){busy=false;btn.classList.remove("busy");btn.textContent="✉ Reply";say("Couldn't send right now — please check your internet and try again.",false)})}
+  btn.addEventListener("click",send);$("form").addEventListener("submit",send)})();
 })();

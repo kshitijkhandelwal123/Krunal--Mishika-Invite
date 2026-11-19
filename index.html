@@ -197,9 +197,10 @@
       <label class="l" for="msg">A message for the couple (optional)</label>
       <textarea id="msg" rows="3" placeholder="Your blessings & wishes…"></textarea>
       <a class="btn" id="send" target="_blank" rel="noopener" href="#rsvp">✉ Reply</a>
-      <p class="rsvpnote sm">Your reply opens in your email app, ready to send.</p>
+      <p class="rsvp-status" id="rsvpStatus" aria-live="polite"></p>
       <p class="rsvpnote">Kindly reply by <span id="rsvpBy"></span></p>
     </form>
+    <div class="rsvp-thanks" id="rsvpThanks" aria-live="polite"></div>
   </div>
 </section>
 
