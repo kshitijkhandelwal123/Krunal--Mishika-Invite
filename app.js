@@ -1,5 +1,6 @@
 (function(){
 var W=window.WEDDING,$=function(i){return document.getElementById(i)};
+if(W.brideFirst){[["groom","bride"],["groomParents","brideParents"],["groomLabel","brideLabel"],["groomFull","brideFull"]].forEach(function(p){var t=W[p[0]];W[p[0]]=W[p[1]];W[p[1]]=t})}
 document.title=W.groom+" & "+W.bride+" | Wedding Invitation";
 
 /* ---------- theme colours + hidden sections ---------- */
@@ -12,25 +13,25 @@ function set(id,v){var e=$(id);if(e)e.textContent=v==null?"":v}
 set("mono",W.monogram);set("mono2",W.monogram);
 set("gEyebrow",W.gateEyebrow);set("gGroom",W.groom);set("gBride",W.bride);set("gTap",W.gateText);
 set("hEyebrow",W.heroEyebrow);set("groom",W.groom);set("bride",W.bride);
-set("hDate",W.dateDay+" · "+W.dateMonth+" · "+W.dateYear);set("hPlace",W.place);
-set("blessing",W.blessing);set("tag",W.tagline);set("invite",W.inviteLine);set("gp",W.groomParents);set("gLab",W.groomLabel||"Son of");set("bLab",W.brideLabel||"Daughter of");set("bp",W.brideParents);set("cGroom",W.groom);set("cBride",W.bride);
+set("hDate",W.heroDate||(W.dateDay+" · "+W.dateMonth+" · "+W.dateYear));set("hPlace",W.place);
+set("blessing",W.blessing);set("tag",W.tagline);set("invite",W.inviteLine);set("gp",W.groomParents);set("gLab",W.groomLabel||"Son of");set("bLab",W.brideLabel||"Daughter of");set("bp",W.brideParents);set("cGroom",W.groomFull||W.groom);set("cBride",W.brideFull||W.bride);
 try{var _d=new Date(W.weddingDateTime),_f=function(o){return new Intl.DateTimeFormat("en-IN",Object.assign({timeZone:"Asia/Kolkata"},o)).format(_d)};
   set("cEnd",W.cardFooter!=null?W.cardFooter:(_f({weekday:"long"})+", "+_f({day:"numeric"})+" "+_f({month:"long"})+" "+_f({year:"numeric"})+"\n"+W.venueName+", "+(W.venueCity||"").replace(/^Venue\s*·\s*/,"")))}catch(e){}
 if(W.footerImage!=null){if(W.footerImage)$("footImg").src=W.footerImage;else $("footImg").parentNode.style.display="none"}
-if(W.postcards&&W.postcards.length){set("pcEyebrow",W.postcardEyebrow||"");set("pcTitle",W.postcardTitle||"");set("pcNote",W.postcardNote||"");
+if(W.postcards&&W.postcards.length&&$("pcs")){set("pcEyebrow",W.postcardEyebrow||"");set("pcTitle",W.postcardTitle||"");set("pcNote",W.postcardNote||"");
   $("pcs").innerHTML=W.postcards.map(function(p,i){return '<figure class="pc reveal-up p'+i+'"><img loading="lazy" src="'+p.src+'" alt=""><figcaption>'+(p.cap||"")+'</figcaption></figure>'}).join("")}
 else{var _pc=$("postcard");if(_pc)_pc.style.display="none"}
 set("eNames",W.groom+" & "+W.bride);set("eDate",W.dateDay+" · "+W.dateMonth+" · "+W.dateYear);
 if(W.gateImage)$("gCity").src=W.gateImage;
 if(W.heroImage){$("heroImg").src=W.heroImage;}if(W.heroFocus){$("heroImg").style.objectPosition=W.heroFocus}
-set("dDay",W.dateDay);set("dMon",W.dateMonth);set("dYr",W.dateYear);set("dTime",W.dateNote||"");
+set("dDay",W.dateDay);try{set("dWk2",new Intl.DateTimeFormat("en-IN",{weekday:"long",timeZone:"Asia/Kolkata"}).format(new Date(W.weddingDateTime)))}catch(e){}set("dMon",W.dateMonth);set("dYr",W.dateYear);set("dTime",W.dateNote||"");
 try{set("dWeek",new Intl.DateTimeFormat("en-IN",{weekday:"long",timeZone:"Asia/Kolkata"}).format(new Date(W.weddingDateTime)).toUpperCase())}catch(e){}
 var S=W.story;if(S){set("spEyebrow",S.eyebrow);set("spTitle",S.title);set("spFromB",S.fromBride);set("spNameB",W.bride);set("spFromG",S.fromGroom);set("spNameG",W.groom);set("spMeet",S.meetPlace);set("spText",S.text);set("spCap",S.caption2||"");
-  if(S.image1)$("spImg1").src=S.image1;else $("spImg1").parentNode.style.display="none";if(S.image2)$("spImg2").src=S.image2;else $("spImg2").parentNode.style.display="none"}else{$("story").style.display="none"}
+  if(S.image1)$("spImg1").src=S.image1;else $("spImg1").parentNode.style.display="none";if(S.image2)$("spImg2").src=S.image2;else $("spImg2").parentNode.style.display="none"}else{var _st=$("story");if(_st)_st.style.display="none"}
 set("evEyebrow",W.eventsEyebrow);set("vName",W.venueName);set("vNote",W.venueNote);set("vCity",W.venueCity);set("vAddr",W.venueAddress);
 set("dEyebrow",W.dressEyebrow);set("dTitle",W.dressTitle);
 set("rsvpBy",W.rsvpBy);set("closeTxt",W.closing);set("fam",W.families);
-set("clNames",W.groom+" & "+W.bride);set("clDate",W.dateDay+" · "+W.dateMonth+" · "+W.dateYear);
+set("clNames",W.groom+" & "+W.bride);set("clDate",W.heroDate||(W.dateDay+" · "+W.dateMonth+" · "+W.dateYear));
 set("clTag",W.hashtag||("#"+W.groom+"Weds"+W.bride));
 if(W.couplePhoto){$("couplePhoto").src=W.couplePhoto;$("coupleWrap").hidden=false}
 if(W.venueImage){$("vimg").src=W.venueImage;$("vimg").style.objectPosition=W.venueFocus||"center"}else{$("vimgWrap").hidden=true}
@@ -38,7 +39,7 @@ $("mapBtn").href=W.mapLink||("https://www.google.com/maps/search/?api=1&query="+
 var RM=["I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII"];
 (function(){var out="",grp=null,n=0;
   function card(e){n++;var pic=e.image?'<img class="pic" loading="lazy" src="'+e.image+'" alt="'+(e.name||e.title)+'" style="object-position:'+(e.focus||"center")+'">':"";
-    return '<div class="ev reveal-up'+(e.image?"":" nopic")+'">'+pic+'<div class="tx"><span class="num">'+(RM[n-1]||n)+'</span>'+(e.name?'<span class="evn">'+e.name+'</span>':'')+'<h3>'+e.title+'</h3><div class="d">'+e.date+'</div><div class="t">'+e.time+'</div><p>'+(e.note||"")+'</p></div></div>'}
+    return '<div class="ev reveal-up'+(e.image?"":" nopic")+'">'+pic+'<div class="tx"><span class="num">'+(RM[n-1]||n)+'</span>'+(e.name?'<span class="evn">'+e.name+'</span>':'')+'<h3>'+e.title+'</h3><div class="d">'+e.date+'</div>'+(e.time?'<div class="t">'+e.time+'</div>':'')+(e.venue?'<div class="evv">\u25C9 '+e.venue+'</div>':'')+'<p>'+(e.note||"")+'</p></div></div>'}
   W.events.forEach(function(e){if(e.header){if(grp!==null)out+='<div class="evgrp">'+grp+'</div>';
       out+='<div class="evh reveal-up"><i class="evh-l"></i><span>\u2726 The main ceremony \u2726</span><h3>'+e.header+'</h3><p>'+(e.note||"")+'</p><i class="evh-l b"></i></div>';grp=""}
     else if(grp!==null)grp+=card(e);else out+=card(e)});
@@ -62,7 +63,7 @@ else{
 /* ---------- glitter ---------- */
 var cv=$("fx"),cx=cv.getContext("2d"),P=[],raf=0,dpr=Math.min(2,window.devicePixelRatio||1);
 function size(){cv.width=innerWidth*dpr;cv.height=innerHeight*dpr}size();addEventListener("resize",size);
-var COL=["#c9922e","#d4577c","#e9b44c","#b0476a","#f08fab","#a8762a","#ffd36b"];
+var COL=["#c9922e","#1f8a7e","#e9b44c","#2c6fb0","#f08fab","#a8762a","#ffd36b"];
 function star(x,y,r,rot){cx.beginPath();for(var i=0;i<8;i++){var a=rot+i*Math.PI/4,rr=i%2?r*.28:r;cx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr)}cx.closePath();cx.fill()}
 function burst(x,y,big){
   var tiny=big==="tiny",n=tiny?9:(big?300:110);
@@ -81,7 +82,7 @@ function shower(ms){var t0=Date.now(),iv=setInterval(function(){dust(10);
 function loop(){cx.setTransform(dpr,0,0,dpr,0,0);cx.clearRect(0,0,innerWidth,innerHeight);
   for(var i=P.length-1;i>=0;i--){var p=P[i];p.l++;if(p.l>p.L){P.splice(i,1);continue}var u=p.l/p.L;
     if(p.ring){var rr=p.r+(p.max-p.r)*(1-Math.pow(1-u,3));var g=cx.createRadialGradient(p.x,p.y,rr*.9,p.x,p.y,rr*1.04);
-      g.addColorStop(0,"rgba(255,255,255,0)");g.addColorStop(.7,"rgba(214,120,150,"+(.75*(1-u))+")");g.addColorStop(1,"rgba(255,255,255,0)");cx.fillStyle=g;cx.beginPath();cx.arc(p.x,p.y,rr*1.04,0,7);cx.fill();continue}
+      g.addColorStop(0,"rgba(255,255,255,0)");g.addColorStop(.7,"rgba(60,150,140,"+(.75*(1-u))+")");g.addColorStop(1,"rgba(255,255,255,0)");cx.fillStyle=g;cx.beginPath();cx.arc(p.x,p.y,rr*1.04,0,7);cx.fill();continue}
     p.x+=p.vx;p.y+=p.vy;p.vx*=.955;p.vy=p.vy*.955+.035;
     var tw=.55+.45*Math.sin(p.l*.5+p.t);cx.globalAlpha=Math.max(0,(1-u))*tw;cx.fillStyle=p.c;
     if(p.k)star(p.x,p.y,p.r*2.2,p.l*.1);else{cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);cx.fill()}}
@@ -137,15 +138,15 @@ function foilDraw(t){if(t.classList.contains("done")||t.dataset.busy)return;var 
   for(var i=0;i<150;i++){c.fillStyle="rgba(255,255,255,"+(.15+rnd()*.5)+")";c.beginPath();c.arc(rnd()*w,rnd()*h,.5+rnd()*1.3,0,7);c.fill()}
   c.strokeStyle="rgba(255,255,255,.18)";c.lineWidth=1;for(var k=-h;k<w;k+=8){c.beginPath();c.moveTo(k,h);c.lineTo(k+h,0);c.stroke()}
   
-  c.fillStyle="#a04e61";c.textAlign="center";c.textBaseline="middle";
-  c.font='italic 600 22px "Cormorant Garamond",serif';c.fillText(t.dataset.k==="day"?"Date":t.dataset.k==="month"?"Month":"Year",w/2,h/2-6);
-  c.font='500 8.5px Jost,sans-serif';if("letterSpacing" in c)c.letterSpacing="2px";c.fillStyle="#a75568";c.fillText("\u2726 TAP TO OPEN \u2726",w/2,h/2+15)}
+  c.fillStyle="#46958b";c.textAlign="center";c.textBaseline="middle";
+  c.font='italic 600 '+(t.classList.contains("big")?30:22)+'px "Cormorant Garamond",serif';c.fillText(t.dataset.k==="date"?"Tap":t.dataset.k==="day"?"Date":t.dataset.k==="month"?"Month":"Year",w/2,h/2-6);
+  c.font='500 8.5px Jost,sans-serif';if("letterSpacing" in c)c.letterSpacing="2px";c.fillStyle="#4c9c91";c.fillText(t.dataset.k==="date"?"\u2726 TO REVEAL \u2726":"\u2726 SCRATCH \u2726",w/2,h/2+18)}
 function allDone(){return tiles.every(function(t){return t.classList.contains("done")})}
 function nextHint(){var n=tiles.filter(function(t){return !t.classList.contains("done")});tiles.forEach(function(t){t.classList.remove("next")});
-  if(n.length){n[0].classList.add("next");set("sdHint",n.length===3?"Tap each card to reveal the date":"\u2726  "+n.length+" more to reveal  \u2726")}
+  if(n.length){n[0].classList.add("next");set("sdHint",n.length===tiles.length?W.sealText:"\u2726  "+n.length+" more to reveal  \u2726")}
   else{set("sdHint","\u2726  Save the date  \u2726");$("dFull").classList.add("show")}}
 function finish(t,silent){t.classList.add("done");try{if(false)localStorage.setItem(KEY+t.dataset.k,"1")}catch(e){}
-  if(!silent&&allDone()){var r=$("sdate").getBoundingClientRect();setTimeout(function(){burst(r.left+r.width/2,r.top+r.height/2,false)},250)}nextHint()}
+  if(!silent&&allDone()){var r=$("sdate").getBoundingClientRect();setTimeout(function(){burst(r.left+r.width/2,r.top+r.height/2,false);shower(1400)},250)}nextHint()}
 function autoScratch(t){if(t.classList.contains("done")||t.dataset.busy)return;t.dataset.busy="1";
   var cv=t.querySelector("canvas"),r=t.getBoundingClientRect(),w=r.width,h=r.height,c=cv.getContext("2d"),passes=7,t0=performance.now(),dur=1500,prev=null,fr=0;
   c.globalCompositeOperation="destination-out";c.lineCap="round";c.lineJoin="round";c.lineWidth=Math.max(24,h/passes*2.7);
@@ -157,8 +158,13 @@ function autoScratch(t){if(t.classList.contains("done")||t.dataset.busy)return;t
   requestAnimationFrame(step)}
 tiles.forEach(function(t,i){
   try{if(false&&localStorage.getItem(KEY+t.dataset.k)){t.classList.add("done");return}}catch(e){}
-  t.style.touchAction="pan-y";
-  t.addEventListener("click",function(){autoScratch(t)});
+  var down=null;
+  t.addEventListener("pointerdown",function(e){down={x:e.clientX,y:e.clientY,m:0}});
+  t.addEventListener("pointermove",function(e){if(!down||t.dataset.busy||t.classList.contains("done"))return;
+    var cv=t.querySelector("canvas"),r=t.getBoundingClientRect(),c=cv.getContext("2d");
+    if(Math.abs(e.clientX-down.x)+Math.abs(e.clientY-down.y)>5&&e.pointerType==="mouse"){down.m+=1;c.globalCompositeOperation="destination-out";c.beginPath();c.arc(e.clientX-r.left,e.clientY-r.top,17,0,7);c.fill();
+      if(down.m%10===0)burst(e.clientX,e.clientY,"tiny");if(down.m>38)autoScratch(t)}});
+  t.addEventListener("pointerup",function(){if(down&&!down.m)autoScratch(t);down=null});
   t.addEventListener("pointercancel",function(){down=null});
   t.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();autoScratch(t)}});t.tabIndex=0;t.setAttribute("role","button");
 });
@@ -189,7 +195,7 @@ nextHint();if(allDone())$("dFull").classList.add("show");
 /* ---------- twinkling light dust ---------- */
 function twinkle(el,n){for(var i=0;i<n;i++){var s=document.createElement("i");s.className="tw";s.style.left=Math.random()*100+"%";s.style.top=Math.random()*78+"%";
   var z=2+Math.random()*4;s.style.width=s.style.height=z+"px";s.style.animationDelay=(Math.random()*4)+"s";s.style.animationDuration=(2.4+Math.random()*3)+"s";el.appendChild(s)}}
-twinkle(document.querySelector("#gate .g-scene"),26);twinkle(document.querySelector("#gate .g-stage"),34);twinkle(document.querySelector("#hero .scene"),22);
+function _tw(s,n){var e=document.querySelector(s);if(e)twinkle(e,n)}_tw("#gate .g-scene",26);_tw("#gate .g-stage",34);_tw("#hero .kr-bg",26);
 
 /* ---------- countdown rings ---------- */
 var target=new Date(W.weddingDateTime).getTime(),C=213.6;
