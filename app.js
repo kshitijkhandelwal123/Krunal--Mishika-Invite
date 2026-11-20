@@ -139,10 +139,10 @@ function foilDraw(t){if(t.classList.contains("done")||t.dataset.busy)return;var 
   
   c.fillStyle="#a04e61";c.textAlign="center";c.textBaseline="middle";
   c.font='italic 600 22px "Cormorant Garamond",serif';c.fillText(t.dataset.k==="day"?"Date":t.dataset.k==="month"?"Month":"Year",w/2,h/2-6);
-  c.font='500 8.5px Jost,sans-serif';if("letterSpacing" in c)c.letterSpacing="2px";c.fillStyle="#a75568";c.fillText("\u2726 SCRATCH \u2726",w/2,h/2+15)}
+  c.font='500 8.5px Jost,sans-serif';if("letterSpacing" in c)c.letterSpacing="2px";c.fillStyle="#a75568";c.fillText("\u2726 TAP TO OPEN \u2726",w/2,h/2+15)}
 function allDone(){return tiles.every(function(t){return t.classList.contains("done")})}
 function nextHint(){var n=tiles.filter(function(t){return !t.classList.contains("done")});tiles.forEach(function(t){t.classList.remove("next")});
-  if(n.length){n[0].classList.add("next");set("sdHint",n.length===3?W.sealText:"\u2726  "+n.length+" more to reveal  \u2726")}
+  if(n.length){n[0].classList.add("next");set("sdHint",n.length===3?"Tap each card to reveal the date":"\u2726  "+n.length+" more to reveal  \u2726")}
   else{set("sdHint","\u2726  Save the date  \u2726");$("dFull").classList.add("show")}}
 function finish(t,silent){t.classList.add("done");try{if(false)localStorage.setItem(KEY+t.dataset.k,"1")}catch(e){}
   if(!silent&&allDone()){var r=$("sdate").getBoundingClientRect();setTimeout(function(){burst(r.left+r.width/2,r.top+r.height/2,false)},250)}nextHint()}
@@ -157,17 +157,8 @@ function autoScratch(t){if(t.classList.contains("done")||t.dataset.busy)return;t
   requestAnimationFrame(step)}
 tiles.forEach(function(t,i){
   try{if(false&&localStorage.getItem(KEY+t.dataset.k)){t.classList.add("done");return}}catch(e){}
-  var down=null;
-  t.addEventListener("pointerdown",function(e){if(t.classList.contains("done"))return;down={x:e.clientX,y:e.clientY,lx:e.clientX,ly:e.clientY,m:0};try{t.setPointerCapture(e.pointerId)}catch(_){}});
-  t.addEventListener("pointermove",function(e){if(!down||t.dataset.busy||t.classList.contains("done"))return;
-    var cv=t.querySelector("canvas"),r=t.getBoundingClientRect(),c=cv.getContext("2d");
-    if(Math.abs(e.clientX-down.lx)+Math.abs(e.clientY-down.ly)<3)return;
-    down.m+=1;c.globalCompositeOperation="destination-out";c.lineCap="round";c.lineJoin="round";c.lineWidth=30;
-    c.beginPath();c.moveTo(down.lx-r.left,down.ly-r.top);c.lineTo(e.clientX-r.left,e.clientY-r.top);c.stroke();
-    down.lx=e.clientX;down.ly=e.clientY;
-    if(down.m%6===0)burst(e.clientX,e.clientY,"tiny");if(down.m>28){down=null;autoScratch(t)}});
-  function upH(){if(down&&!down.m){t.classList.remove("hintme");void t.offsetWidth;t.classList.add("hintme")}down=null}
-  t.addEventListener("pointerup",upH);
+  t.style.touchAction="pan-y";
+  t.addEventListener("click",function(){autoScratch(t)});
   t.addEventListener("pointercancel",function(){down=null});
   t.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();autoScratch(t)}});t.tabIndex=0;t.setAttribute("role","button");
 });
