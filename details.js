@@ -102,7 +102,7 @@ window.WEDDING = {
   closing: "Your presence and blessings will make our celebration complete.",
   families: "With love — The Saraiya & Gupta Families",
   hashtag: "#KrunalWedsMishika",
-  music: "music/song.mp3",
+  music: "music/Song.mp3",
 
   /* ---- colours (hex) ---- */
   theme: { ink: "#6b2c3f", blue: "#8c4558", sky: "#f2d4dc", mist: "#fdf4f6", gold: "#a8842f" },
