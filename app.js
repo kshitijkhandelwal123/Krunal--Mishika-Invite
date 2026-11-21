@@ -1,5 +1,15 @@
 (function(){
 var W=window.WEDDING,$=function(i){return document.getElementById(i)};
+/* bride-first link: if the address contains one of these words, Mishika's name shows first */
+W._bride=W.bride;W._groom=W.groom;
+(function(){var hs=W.brideFirstLinks||["mishika-krunal","mishika-and-krunal","mishikakrunal"],h=location.hostname.toLowerCase();
+  if(hs.some(function(x){return h.indexOf(x)>-1})){
+    [["groom","bride"],["groomParents","brideParents"],["groomLabel","brideLabel"]].forEach(function(p){var t=W[p[0]];W[p[0]]=W[p[1]];W[p[1]]=t});
+    if(W.groomLabel==null)W.groomLabel="Daughter of";if(W.brideLabel==null)W.brideLabel="Son of";
+    if(W.monogram)W.monogram=W.monogram.split("&").map(function(s){return s.trim()}).reverse().join(" & ");
+    if(W.hashtag)W.hashtag=W.hashtag.replace(new RegExp(W._groom+"Weds"+W._bride,"i"),W._bride+"Weds"+W._groom);
+    if(W.families)W.families=W.families.replace(/The (\w+) & (\w+) Families/,"The $2 & $1 Families");
+  }})();
 document.title=W.groom+" & "+W.bride+" | Wedding Invitation";
 
 /* ---------- theme colours + hidden sections ---------- */
@@ -25,7 +35,7 @@ if(W.gateImage)$("gCity").src=W.gateImage;
 if(W.heroImage){$("heroImg").src=W.heroImage;}if(W.heroFocus){$("heroImg").style.objectPosition=W.heroFocus}
 set("dDay",W.dateDay);set("dMon",W.dateMonth);set("dYr",W.dateYear);set("dTime",W.dateNote||"");
 try{set("dWeek",new Intl.DateTimeFormat("en-IN",{weekday:"long",timeZone:"Asia/Kolkata"}).format(new Date(W.weddingDateTime)).toUpperCase())}catch(e){}
-var S=W.story;if(S){set("spEyebrow",S.eyebrow);set("spTitle",S.title);set("spFromB",S.fromBride);set("spNameB",W.bride);set("spFromG",S.fromGroom);set("spNameG",W.groom);set("spMeet",S.meetPlace);set("spText",S.text);set("spCap",S.caption2||"");
+var S=W.story;if(S){set("spEyebrow",S.eyebrow);set("spTitle",S.title);set("spFromB",S.fromBride);set("spNameB",W._bride);set("spFromG",S.fromGroom);set("spNameG",W._groom);set("spMeet",S.meetPlace);set("spText",S.text);set("spCap",S.caption2||"");
   if(S.image1)$("spImg1").src=S.image1;else $("spImg1").parentNode.style.display="none";if(S.image2)$("spImg2").src=S.image2;else $("spImg2").parentNode.style.display="none"}else{$("story").style.display="none"}
 set("evEyebrow",W.eventsEyebrow);set("vName",W.venueName);set("vNote",W.venueNote);set("vCity",W.venueCity);set("vAddr",W.venueAddress);
 set("dEyebrow",W.dressEyebrow);set("dTitle",W.dressTitle);
@@ -213,10 +223,13 @@ tick();setInterval(tick,1000);
       _subject:"RSVP – "+n+" – "+(yes?"Attending":"Not attending")+" | "+W.groom+" & "+W.bride+" Wedding",_template:"table",_captcha:"false"};
     if(mails.length>1)data._cc=mails.slice(1).join(",");
     fetch("https://formsubmit.co/ajax/"+mails[0],{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(data)})
-    .then(function(r){return r.json().catch(function(){return {}}).then(function(j){if(!r.ok||j.success==="false"||j.success===false)throw 0})})
+    .then(function(r){return r.json().catch(function(){return {}}).then(function(j){if(!r.ok||j.success==="false"||j.success===false){var er=new Error(j.message||("Server replied "+r.status));er.srv=1;throw er}})})
     .then(function(){busy=false;$("form").classList.add("sent");
       $("rsvpThanks").innerHTML="<b>Thank you, "+n.replace(/[<>&]/g,"")+"!</b><span>"+(yes?"We can't wait to celebrate with you.":"You'll be missed — thank you for your blessings.")+"</span>";
       var r=$("rsvp").getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,true)})
-    .catch(function(){busy=false;btn.classList.remove("busy");btn.textContent="✉ Reply";say("Couldn't send right now — please check your internet and try again.",false)})}
+    .catch(function(err){busy=false;btn.classList.remove("busy");btn.textContent="✉ Reply";
+      if(location.protocol==="file:"||/claude\.ai|claudeusercontent/.test(location.host+document.referrer)){say("RSVP sending works only on the live website link.",false);return}
+      if(err&&err.srv){var msg=String(err.message||"");say(/activat/i.test(msg)?"Almost there — the couple's email needs a one-time activation. Please try again a little later.":("Couldn't send: "+msg.replace(/<[^>]*>/g,"").slice(0,160)),false)}
+      else say("Couldn't send right now — please check your internet and try again.",false)})}
   btn.addEventListener("click",send);$("form").addEventListener("submit",send)})();
 })();
