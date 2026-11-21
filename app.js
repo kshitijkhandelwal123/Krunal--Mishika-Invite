@@ -7,7 +7,6 @@ W._bride=W.bride;W._groom=W.groom;
     [["groom","bride"],["groomParents","brideParents"],["groomLabel","brideLabel"]].forEach(function(p){var t=W[p[0]];W[p[0]]=W[p[1]];W[p[1]]=t});
     if(W.groomLabel==null)W.groomLabel="Daughter of";if(W.brideLabel==null)W.brideLabel="Son of";
     if(W.monogram)W.monogram=W.monogram.split("&").map(function(s){return s.trim()}).reverse().join(" & ");
-    if(W.hashtag)W.hashtag=W.hashtag.replace(new RegExp(W._groom+"Weds"+W._bride,"i"),W._bride+"Weds"+W._groom);
     if(W.families)W.families=W.families.replace(/The (\w+) & (\w+) Families/,"The $2 & $1 Families");
   }})();
 document.title=W.groom+" & "+W.bride+" | Wedding Invitation";
