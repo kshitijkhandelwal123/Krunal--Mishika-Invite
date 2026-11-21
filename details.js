@@ -97,7 +97,7 @@ window.WEDDING = {
   ],
 
   /* ---- RSVP (replies arrive by email) ---- */
-  rsvpEmail: "krunalmishika@gmail.com",   /* ← couple's email; for two, separate with a comma: "a@gmail.com,b@gmail.com" */
+  rsvpEmail: "kshitijkhandelwal123@gmail.com",   /* ← couple's email; for two, separate with a comma: "a@gmail.com,b@gmail.com" */
   rsvpBy: "31 Dec 2026",
   closing: "Your presence and blessings will make our celebration complete.",
   families: "With love — The Saraiya & Gupta Families",
